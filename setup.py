@@ -82,10 +82,14 @@ def expandvars(name):
             for x in os.environ.get(name, '').split(':') if x]
 LDAP_CLASS.library_dirs += expandvars('LIBRARY_PATH')
 LDAP_CLASS.include_dirs += expandvars('INCLUDE_PATH')
-LDAP_CLASS.include_dirs += expandvars('C_INCLUDE_PATH')
 print(os.environ)
-print(LDAP_CLASS.library_dirs)
-print(LDAP_CLASS.include_dirs)
+print(expandvars('LIBRARY_PATH'))
+print(expandvars('INCLUDE_PATH'))
+for p in LDAP_CLASS.include_dirs:
+    print(p)
+    import subprocess
+    print(['ls', '-lR', p])
+    subprocess.call(['ls', '-lR', p])
 
 #-- Let distutils/setuptools do the rest
 name = 'pyldap'

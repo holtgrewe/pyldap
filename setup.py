@@ -82,6 +82,15 @@ def expandvars(name):
             for x in os.environ.get(name, '').split(':') if x]
 LDAP_CLASS.library_dirs += expandvars('LIBRARY_PATH')
 LDAP_CLASS.include_dirs += expandvars('INCLUDE_PATH')
+
+# Add "sasl" subdirectory if necessary.
+more_include_dirs = []
+for x in LDAP_CLASS.include_dirs:
+    if os.path.exists(os.path.join(x, 'sasl/sasl.h')):
+        more_include_dirs.append(os.path.join(x, 'sasl'))
+LDAP_CLASS.include_dirs += more_include_dirs
+
+
 print(os.environ)
 print(expandvars('LIBRARY_PATH'))
 print(expandvars('INCLUDE_PATH'))
